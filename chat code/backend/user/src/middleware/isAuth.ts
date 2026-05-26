@@ -39,6 +39,7 @@ export const isAuth = async (
 
     next();
   } catch (error) {
+    console
     res.status(401).json({
       message: "Please Login - JWT error",
     });

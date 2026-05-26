@@ -18,7 +18,7 @@ export const redisClient = createClient({
 
 redisClient
   .connect()
-  .then(() => console.log("connected to redis"))
+  .then(() => console.log("connected to REDIS"))
   .catch(console.error);
 
 const app = express();

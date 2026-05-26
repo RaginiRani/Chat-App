@@ -1,10 +1,21 @@
 import amqp from "amqplib";
 import dotenv from "dotenv";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.USER,
+    pass: process.env.PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
 
 export const startSendOtpConsumer = async () => {
   try {
@@ -21,28 +32,32 @@ export const startSendOtpConsumer = async () => {
 
     await channel.assertQueue(queueName, { durable: true });
 
-    console.log("✅ Mail Service consumer started, listening for otp emails");
+    console.log("✅ Mail Service consumer started");
 
     channel.consume(queueName, async (msg) => {
       if (msg) {
         try {
-          const { to, subject, body } = JSON.parse(msg.content.toString());
+          const { to, subject, body } = JSON.parse(
+            msg.content.toString()
+          );
 
-          await resend.emails.send({
-            from: "Chat App <onboarding@resend.dev>",
+          await transporter.sendMail({
+            from: process.env.EMAIL_USER,
             to,
             subject,
             text: body,
           });
 
           console.log(`✅ OTP mail sent to ${to}`);
+
           channel.ack(msg);
+
         } catch (error) {
           console.error("❌ Failed to send otp:", error);
         }
       }
     });
   } catch (error) {
-    console.error("❌ Failed to start RabbitMQ consumer:", error);
+    console.error("❌ RabbitMQ consumer error:", error);
   }
 };
