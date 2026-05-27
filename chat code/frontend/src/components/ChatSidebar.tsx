@@ -90,6 +90,7 @@ const ChatSidebar = ({
 
       {/* content */}
       <div className="flex-1  overflow-hidden px-4 py-2">
+        {/*if showusers = true, render users list else show chats */}
         {showAllUsers ? (
           <div className="space-y-4 h-full">
             <div className="relative">
@@ -105,14 +106,9 @@ const ChatSidebar = ({
 
             {/* users list */}
             <div className="space-y-2 overflow-y-auto h-full pb-4">
-              {users
-                ?.filter(
-                  (u) =>
-                    u._id !== loggedInUser?._id &&
-                    u.name
-                      .toLowerCase()
-                      .includes(searchQuery.toLocaleLowerCase())
-                )
+              {users ?.filter((u) =>
+                    u._id !== loggedInUser?._id && u.name.toLowerCase()
+                      .includes(searchQuery.toLocaleLowerCase())) //Prevents showing yourself in new chat list.
                 .map((u) => (
                   <button
                     key={u._id}
@@ -121,7 +117,8 @@ const ChatSidebar = ({
                   >
                     <div className="flex items-center gap-3">
                       <div className="relative">
-                        <UserCircle className="w-6 h-6 text-gray-300" />
+                        <UserCircle className="w-6 h-6 text-gray-300" /> 
+                        {/*Checks if user online. If yes show green dot*/}
                         {onlineUsers.includes(u._id) && (
                           <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-gray-900" />
                         )}
@@ -139,7 +136,7 @@ const ChatSidebar = ({
                 ))}
             </div>
           </div>
-        ) : chats && chats.length > 0 ? (
+        ) : chats && chats.length > 0 ? ( //{/*if chats exist show chats list else no conversation yet */}
           <div className="space-y-2 overflow-y-auto h-full pb-4">
             {chats.map((chat) => {
               const latestMessage = chat.chat.latestMessage;
@@ -151,7 +148,7 @@ const ChatSidebar = ({
                 <button
                   key={chat.chat._id}
                   onClick={() => {
-                    setSelectedUser(chat.chat._id);
+                    setSelectedUser(chat.chat._id); //open that chat
                     setSidebarOpen(false);
                   }}
                   className={`w-full text-left p-4 rounded-lg transition-colors ${

@@ -14,7 +14,11 @@ export const connectRabbitMQ = async () => {
 
     channel = await connection.createChannel();
 
+<<<<<<< HEAD
     console.log("✅ connected to rabbitmq");
+=======
+    console.log("✅ connected to RABBITMQ");
+>>>>>>> 4337f333da07bbe77f8faec4ed882a5c70a6d097
   } catch (error) {
     console.log("Failed to connect to rabbitmq", error);
   }

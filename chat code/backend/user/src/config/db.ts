@@ -11,7 +11,7 @@ const connectDb = async () => {
     await mongoose.connect(url, {
       dbName: "Chatappmicroserviceapp",
     });
-    console.log("Connected to mongodb");
+    console.log("Connected to MONGODB");
   } catch (error) {
     console.error("Failed to connect to Mongodb", error);
     process.exit(1);

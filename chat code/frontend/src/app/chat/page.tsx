@@ -34,7 +34,7 @@ const ChatApp = () => {
     logoutUser,
     chats,
     user: loggedInUser,
-    users,
+    users, //fetches userslist from context, so i didnt called fetchUsers manually
     fetchChats,
     setChats,
   } = useAppData();
@@ -48,9 +48,7 @@ const ChatApp = () => {
   const [user, setUser] = useState<User | null>(null);
   const [showAllUser, setShowAllUser] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [typingTimeOut, setTypingTimeOut] = useState<NodeJS.Timeout | null>(
-    null
-  );
+  const [typingTimeOut, setTypingTimeOut] = useState<NodeJS.Timeout | null>(null);
 
   const router = useRouter();
 
@@ -145,8 +143,7 @@ const ChatApp = () => {
   async function createChat(u: User) {
     try {
       const token = Cookies.get("token");
-      const { data } = await axios.post(
-        `${chat_service}/api/v1/chat/new`,
+      const { data } = await axios.post(`${chat_service}/api/v1/chat/new`,
         {
           userId: loggedInUser?._id,
           otherUserId: u._id,
