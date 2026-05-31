@@ -18,12 +18,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.6.0",
-<<<<<<< HEAD
-    "socket.io-client": "^4.8.1"
-=======
-    "socket.io": "^4.8.3",
-    "socket.io-client": "^4.8.3"
->>>>>>> 4337f333da07bbe77f8faec4ed882a5c70a6d097
+"socket.io": "^4.8.3",
+"socket.io-client": "^4.8.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

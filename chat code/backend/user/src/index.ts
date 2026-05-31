@@ -14,13 +14,20 @@ connectRabbitMQ();
 
 export const redisClient = createClient({
   url: process.env.REDIS_URL,
+  socket: {
+    tls: true,
+  },
+});
+redisClient.on("error", (err) => {
+  console.log("Redis Error:", err);
 });
 
 redisClient
   .connect()
   .then(() => console.log("connected to REDIS"))
-  .catch(console.error);
-
+  .catch((err) => {
+    console.log("Redis Connect Error:", err);
+  });
 const app = express();
 
 app.use(express.json());
